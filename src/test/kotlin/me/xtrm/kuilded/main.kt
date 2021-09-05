@@ -8,9 +8,12 @@ fun main() {
     val pass = System.getenv("KUILDED_TEST_PASS")
 
     val client = ClientBuilder.createClient(email, pass)
+
     client.on<MessageEvent> {
         if (it.type == Type.RECEIVED) {
-            if(it.)
+            if (it.message.getUnformattedText().startsWith("!uwu")) {
+//                it.message.reply("OwO!").complete()
+            }
         }
     }
 }
