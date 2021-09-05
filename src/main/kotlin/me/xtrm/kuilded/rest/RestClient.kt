@@ -7,19 +7,27 @@ import me.xtrm.kuilded.struct.user.User
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import org.apache.http.HttpHeaders
 import java.net.URL
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KFunction3
 
-class RestClient(userAgent: String) {
+open class RestClient(private val userAgent: String) {
 
     private val httpClient: OkHttpClient = OkHttpClient.Builder()
         .callTimeout(60, TimeUnit.SECONDS)
         .cookieJar(CookieJar())
         .build()
 
+    private var authCookie: String? = null
+
     private fun buildRequest(method: Method = Method.GET, endpoint: String, params: Map<String, Any> = emptyMap()): Request {
-        return method.function.invoke(this, URL(API_BASE + endpoint), params).build()
+        val builder: Request.Builder = method.function.invoke(this, URL(API_BASE + endpoint), params)
+        builder.header(HttpHeaders.USER_AGENT, userAgent)
+        authCookie?.let {
+            builder.header("Cookie", "$ID_COOKIE_NAME=$it")
+        }
+        return builder.build()
     }
 
     private fun execute(request: Request): Response {

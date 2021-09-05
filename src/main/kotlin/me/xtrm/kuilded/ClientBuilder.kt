@@ -15,7 +15,12 @@ object ClientBuilder {
     private val restClient = RestClient(USER_AGENT)
 
     fun createClient(email: String, password: String): Client {
-        return Client(restClient.login(email, password))
+        val pair = restClient.login(email, password)
+        return createClient(pair.second)
+    }
+
+    fun createClient(authCookie: String): Client {
+        return Client(authCookie)
     }
 
 }
