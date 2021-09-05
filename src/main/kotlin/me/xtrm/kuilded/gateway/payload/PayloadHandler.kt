@@ -29,7 +29,7 @@ class PayloadHandler(private val client: GatewayClient, private val mapper: Obje
     private fun handleHello(data: Map<String, Any>) {
         client.connection.sid = data["sid"] as String
 
-
+        HeartbeatHandler(client, data["pingInterval"] as Long)
     }
 
     private fun handleVoid(data: Map<String, Any>) {}

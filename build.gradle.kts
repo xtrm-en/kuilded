@@ -15,5 +15,6 @@ dependencies {
     api(kotlin("reflect"))
 
     api("com.fasterxml.jackson.core:jackson-databind:2.10.0")
+    api("com.squareup.okhttp3:okhttp:4.9.1")
     api("org.java-websocket:Java-WebSocket:1.5.1")
 }

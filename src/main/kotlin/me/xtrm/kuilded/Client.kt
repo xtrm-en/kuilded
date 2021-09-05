@@ -10,5 +10,4 @@ class Client(clientId: String) {
         clientGateway.connect()
     }
 
-
 }
