@@ -8,6 +8,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.apache.http.HttpHeaders
+import org.apache.http.NameValuePair
+import org.apache.http.client.utils.URLEncodedUtils
+import org.apache.http.message.BasicNameValuePair
 import java.net.URL
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KFunction3
@@ -60,6 +63,13 @@ open class RestClient(private val userAgent: String) {
     }
 
     private fun createGet(url: URL, map: Map<String, Any>): Request.Builder {
+        val builder = Request.Builder()
+        val list = ArrayList<BasicNameValuePair>()
+        map.map { BasicNameValuePair(it.key, it.value.toString()) }.forEach(list::add)
 
+        val query = URLEncodedUtils.format(list, Charsets.UTF_8)
+        builder.url(URL("$url?$query"))
+        builder.get()
+        return builder
     }
 }
